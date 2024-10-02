@@ -11,7 +11,7 @@ use actix_web::{
 };
 use lost_pixel::{client::LostPixelClient, docker::DockerClient};
 
-use crate::settings::Settings;
+use crate::{routes::get_story, settings::Settings};
 
 pub struct Application {
     ip: IpAddr,
@@ -80,6 +80,9 @@ pub fn configure_app(settings: &Settings) -> impl FnOnce(&mut ServiceConfig) + C
 
     move |app: &mut ServiceConfig| {
         app.route("/ping", actix_web::web::get().to(pong))
+            .service(
+                web::scope("/stories").route("/{story_id}/{story_type}", web::get().to(get_story)),
+            )
             .app_data(web::Data::from(lost_pixel_client));
     }
 }

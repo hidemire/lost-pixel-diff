@@ -1,5 +1,5 @@
 [workspace]
-members = ["packages/lost-pixel"]
+members = ["packages/backend", "packages/lost-pixel"]
 
 [workspace.dependencies]
 tokio = { version = "1", features = ["full"] }

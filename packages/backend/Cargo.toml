@@ -1,0 +1,12 @@
+[package]
+name = "backend"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { workspace = true }
+serde = { workspace = true }
+actix-web = "4"
+actix-cors = "0.7.0"
+clap = { version = "4.5.16", features = ["derive", "string"] }
+figment = { version = "0.10.19", features = ["yaml", "env"] }

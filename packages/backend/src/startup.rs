@@ -12,7 +12,7 @@ use actix_web::{
 use lost_pixel::{client::LostPixelClient, docker::DockerClient};
 
 use crate::{
-    routes::{generate, get_story, promote},
+    routes::{generate, get_story, list_stories, promote},
     settings::Settings,
 };
 
@@ -86,7 +86,8 @@ pub fn configure_app(settings: &Settings) -> impl FnOnce(&mut ServiceConfig) + C
             .service(
                 web::scope("/api")
                     .route("/generate", web::post().to(generate))
-                    .route("/promote", web::post().to(promote)),
+                    .route("/promote", web::post().to(promote))
+                    .route("/stories/{story_type}", web::get().to(list_stories)),
             )
             .service(
                 web::scope("/stories").route("/{story_id}/{story_type}", web::get().to(get_story)),

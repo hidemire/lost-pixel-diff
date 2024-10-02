@@ -11,6 +11,7 @@ import {
   useStoriesGenerate,
 } from "~/entities/story";
 import { cn } from "~/lib/utils";
+import { GeneratorOutput } from "~/features/generator-output";
 
 const kindLabel = [
   {
@@ -91,14 +92,16 @@ const Toolbar = ({ className, table }: ToolbarProps) => {
       >
         Promote selected
       </Button>
-      <Button
-        variant="outline"
-        onClick={handleStoriesGenerate}
-        disabled={generateMutation.isPending}
-      >
-        <RocketIcon className="h-4 w-4 mr-2" />
-        Generate
-      </Button>
+      <GeneratorOutput>
+        <Button
+          variant="outline"
+          onClick={handleStoriesGenerate}
+          disabled={generateMutation.isPending}
+        >
+          <RocketIcon className="h-4 w-4 mr-2" />
+          Generate
+        </Button>
+      </GeneratorOutput>
     </div>
   );
 };

@@ -1,7 +1,15 @@
-use std::net::{IpAddr, TcpListener};
+use std::{
+    net::{IpAddr, TcpListener},
+    sync::Arc,
+};
 
 use actix_cors::Cors;
-use actix_web::{dev::Server, web::ServiceConfig, App, HttpResponse, HttpServer, Responder};
+use actix_web::{
+    dev::Server,
+    web::{self, ServiceConfig},
+    App, HttpResponse, HttpServer, Responder,
+};
+use lost_pixel::{client::LostPixelClient, docker::DockerClient};
 
 use crate::settings::Settings;
 
@@ -19,7 +27,7 @@ impl Application {
         let ip = socket_addr.ip();
         let port = socket_addr.port();
 
-        let configurator = configure_app();
+        let configurator = configure_app(&settings);
 
         let server = HttpServer::new(move || {
             App::new()
@@ -54,8 +62,24 @@ async fn pong() -> impl Responder {
     HttpResponse::Ok().body("pong")
 }
 
-pub fn configure_app() -> impl FnOnce(&mut ServiceConfig) + Clone {
+/// # Panics
+pub fn get_lost_pixel_client(settings: &Settings) -> Arc<LostPixelClient> {
+    let docker_client = DockerClient {};
+    let docker_client = Box::new(docker_client);
+    let client = LostPixelClient::init(
+        settings.workspace.clone(),
+        &settings.lost_pixel_image_tag,
+        docker_client,
+    )
+    .expect("Failed to initialize LostPixelClient");
+    Arc::new(client)
+}
+
+pub fn configure_app(settings: &Settings) -> impl FnOnce(&mut ServiceConfig) + Clone {
+    let lost_pixel_client = get_lost_pixel_client(settings);
+
     move |app: &mut ServiceConfig| {
-        app.route("/ping", actix_web::web::get().to(pong));
+        app.route("/ping", actix_web::web::get().to(pong))
+            .app_data(web::Data::from(lost_pixel_client));
     }
 }

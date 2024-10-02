@@ -335,6 +335,7 @@ dependencies = [
  "actix-web",
  "clap",
  "figment",
+ "lost-pixel",
  "serde",
  "tokio",
  "tracing",

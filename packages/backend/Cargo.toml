@@ -16,3 +16,4 @@ figment = { version = "0.10.19", features = ["yaml", "env"] }
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 mime_guess = "2.0.5"
 rust-embed = "8.5.0"
+open = "5.3.0"

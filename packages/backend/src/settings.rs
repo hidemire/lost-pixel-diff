@@ -17,6 +17,8 @@ pub struct Settings {
     pub host: String,
     #[clap(short, long, default_value = "3000")]
     pub port: u16,
+    #[clap(short, long, action = clap::ArgAction::Set, default_value = "true")]
+    pub open_browser: bool,
 
     #[clap(short, long, default_value = default_workspace().into_os_string())]
     pub workspace: PathBuf,

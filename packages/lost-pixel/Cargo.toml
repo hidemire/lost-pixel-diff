@@ -1,0 +1,13 @@
+[package]
+name = "lost-pixel"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { workspace = true }
+thiserror = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+futures = { workspace = true }
+serde = { workspace = true }
+tokio-stream = { version = "0.1.16", features = ["full"] }

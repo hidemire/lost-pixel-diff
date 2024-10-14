@@ -1,0 +1,10 @@
+[workspace]
+members = ["packages/backend", "packages/lost-pixel"]
+
+[workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+thiserror = "1.0.64"
+async-trait = "0.1.83"
+tracing = "0.1.40"
+futures = "0.3.30"
+serde = { version = "1.0.210", features = ["derive"] }
